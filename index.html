@@ -41,7 +41,7 @@
             height: 320px;
             margin: auto;
         }
-        .p-4:last-child {
+        .p-4 {
             text-align: center;
         }
         @media (max-width: 640px) {
@@ -154,7 +154,7 @@ const workoutData = {
                     <table class="w-full text-left">
                         <thead>
                             <tr>
-                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4 rounded-l-lg">Exercises (Chest, Shoulders, Triceps)</th>
                                 <th class="p-4">Sets & Reps</th>
                                 <th class="p-4">Rest</th>
                                 <th class="p-4 rounded-r-lg">Complete</th>
@@ -162,49 +162,49 @@ const workoutData = {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="p-4 font-semibold">Barbell Bench Press<p class="font-normal text-sm text-zinc-500">Focus on controlled movement.</p></td>
+                                <td class="p-4 font-semibold">Barbell Bench Press<p class="font-normal text-sm text-zinc-500">Chest, Triceps, Shoulders</p></td>
                                 <td class="p-4">3-4 sets of 6-8 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="0"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Incline Dumbbell Press<p class="font-normal text-sm text-zinc-500">Targets upper chest.</p></td>
+                                <td class="p-4 font-semibold">Incline Dumbbell Press<p class="font-normal text-sm text-zinc-500">Upper Chest, Shoulders, Triceps</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="1"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Standing Overhead Press<p class="font-normal text-sm text-zinc-500">Focus on core stability.</p></td>
+                                <td class="p-4 font-semibold">Standing Overhead Press<p class="font-normal text-sm text-zinc-500">Shoulders, Triceps</p></td>
                                 <td class="p-4">3 sets of 6-10 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="2"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Lateral Raises<p class="font-normal text-sm text-zinc-500">Mind-muscle connection for shoulder width.</p></td>
+                                <td class="p-4 font-semibold">Lateral Raises<p class="font-normal text-sm text-zinc-500">Shoulders (Side Deltoids)</p></td>
                                 <td class="p-4">3 sets of 12-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="3"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Triceps Dips<p class="font-normal text-sm text-zinc-500">Use parallel bars or a bench.</p></td>
+                                <td class="p-4 font-semibold">Triceps Dips<p class="font-normal text-sm text-zinc-500">Triceps, Chest, Shoulders</p></td>
                                 <td class="p-4">3 sets to failure</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="4"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Overhead Triceps Extension<p class="font-normal text-sm text-zinc-500">Use dumbbell or cable.</p></td>
+                                <td class="p-4 font-semibold">Overhead Triceps Extension<p class="font-normal text-sm text-zinc-500">Triceps</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="5"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Close-Grip Bench Press<p class="font-normal text-sm text-zinc-500">Excellent for triceps development.</p></td>
+                                <td class="p-4 font-semibold">Close-Grip Bench Press<p class="font-normal text-sm text-zinc-500">Triceps, Chest</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="6"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Kegel Exercises (slow + fast)<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor muscles.</p></td>
+                                <td class="p-4 font-semibold">Kegel Exercises (slow + fast)<p class="font-normal text-sm text-zinc-500">Pelvic Floor Muscles</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">30-45s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="7"></td>
@@ -225,7 +225,7 @@ const workoutData = {
                     <table class="w-full text-left">
                         <thead>
                             <tr>
-                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4 rounded-l-lg">Exercises (Quads, Hamstrings, Glutes, Core)</th>
                                 <th class="p-4">Sets & Reps</th>
                                 <th class="p-4">Rest</th>
                                 <th class="p-4 rounded-r-lg">Complete</th>
@@ -233,67 +233,67 @@ const workoutData = {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="p-4 font-semibold">Barbell Back Squat<p class="font-normal text-sm text-zinc-500">Deep, controlled squats.</p></td>
+                                <td class="p-4 font-semibold">Barbell Back Squat<p class="font-normal text-sm text-zinc-500">Quads, Glutes, Hamstrings</p></td>
                                 <td class="p-4">3-4 sets of 5-8 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="0"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Hip Thrusts<p class="font-normal text-sm text-zinc-500">Excellent for glute development.</p></td>
+                                <td class="p-4 font-semibold">Hip Thrusts<p class="font-normal text-sm text-zinc-500">Glutes, Hamstrings</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="1"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Romanian Deadlift<p class="font-normal text-sm text-zinc-500">Focus on hamstring stretch.</p></td>
+                                <td class="p-4 font-semibold">Romanian Deadlift<p class="font-normal text-sm text-zinc-500">Hamstrings, Glutes, Lower Back</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="2"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Leg Press<p class="font-normal text-sm text-zinc-500">Vary foot placement.</p></td>
+                                <td class="p-4 font-semibold">Leg Press<p class="font-normal text-sm text-zinc-500">Quads, Glutes, Hamstrings</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="3"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Walking Lunges<p class="font-normal text-sm text-zinc-500">Hold dumbbells for added challenge.</p></td>
+                                <td class="p-4 font-semibold">Walking Lunges<p class="font-normal text-sm text-zinc-500">Quads, Glutes, Hamstrings</p></td>
                                 <td class="p-4">3 sets of 10-12 reps/leg</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="4"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Calf Raises<p class="font-normal text-sm text-zinc-500">Standing or seated.</p></td>
+                                <td class="p-4 font-semibold">Calf Raises<p class="font-normal text-sm text-zinc-500">Calves</p></td>
                                 <td class="p-4">3 sets of 15-20 reps</td>
                                 <td class="p-4">30-45s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="5"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Glute-Ham Raise or Nordic Curl<p class="font-normal text-sm text-zinc-500">Advanced hamstring exercise.</p></td>
+                                <td class="p-4 font-semibold">Glute-Ham Raise or Nordic Curl<p class="font-normal text-sm text-zinc-500">Hamstrings, Glutes</p></td>
                                 <td class="p-4">3 sets of 8-10 reps</td>
                                 <td class="p-4">90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="6"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Plank<p class="font-normal text-sm text-zinc-500">Maintain a straight line from head to heels.</p></td>
+                                <td class="p-4 font-semibold">Plank<p class="font-normal text-sm text-zinc-500">Core (Abs, Obliques, Lower Back)</p></td>
                                 <td class="p-4">3 sets of 45-60s</td>
                                 <td class="p-4">30-45s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="7"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Side Plank<p class="font-normal text-sm text-zinc-500">Focus on oblique engagement.</p></td>
+                                <td class="p-4 font-semibold">Side Plank<p class="font-normal text-sm text-zinc-500">Obliques, Core</p></td>
                                 <td class="p-4">3 sets of 30-45s/side</td>
                                 <td class="p-4">30-45s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="8"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Hanging Leg Raises<p class="font-normal text-sm text-zinc-500">Focus on lower abs.</p></td>
+                                <td class="p-4 font-semibold">Hanging Leg Raises<p class="font-normal text-sm text-zinc-500">Lower Abs, Hip Flexors</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="9"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Kegel + Glute Bridge Superset<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor and glute activation.</p></td>
+                                <td class="p-4 font-semibold">Kegel + Glute Bridge Superset<p class="font-normal text-sm text-zinc-500">Pelvic Floor, Glutes</p></td>
                                 <td class="p-4">3 sets (10-15 reps each)</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="10"></td>
@@ -341,7 +341,7 @@ const workoutData = {
                     <table class="w-full text-left">
                         <thead>
                             <tr>
-                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4 rounded-l-lg">Exercises (Back, Biceps, Rear Deltoids, Traps, Forearms)</th>
                                 <th class="p-4">Sets & Reps</th>
                                 <th class="p-4">Rest</th>
                                 <th class="p-4 rounded-r-lg">Complete</th>
@@ -349,67 +349,67 @@ const workoutData = {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="p-4 font-semibold">Pull-ups / Lat Pulldowns<p class="font-normal text-sm text-zinc-500">Focus on squeezing your lats.</p></td>
+                                <td class="p-4 font-semibold">Pull-ups / Lat Pulldowns<p class="font-normal text-sm text-zinc-500">Back (Lats), Biceps</p></td>
                                 <td class="p-4">3-4 sets of 6-10 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="0"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Barbell Rows<p class="font-normal text-sm text-zinc-500">Maintain a flat back.</p></td>
+                                <td class="p-4 font-semibold">Barbell Rows<p class="font-normal text-sm text-zinc-500">Back (Lats, Rhomboids, Traps), Biceps</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="1"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Reverse Grip Rows<p class="font-normal text-sm text-zinc-500">Targets lower lats and biceps.</p></td>
+                                <td class="p-4 font-semibold">Reverse Grip Rows<p class="font-normal text-sm text-zinc-500">Back (Lower Lats), Biceps</p></td>
                                 <td class="p-4">3 sets of 8-12 reps</td>
                                 <td class="p-4">90-120s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="2"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Seated Cable Rows<p class="font-normal text-sm text-zinc-500">Squeeze shoulder blades together.</p></td>
+                                <td class="p-4 font-semibold">Seated Cable Rows<p class="font-normal text-sm text-zinc-500">Back (Mid-Back, Lats), Biceps</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="3"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Shrugs<p class="font-normal text-sm text-zinc-500">For trap development.</p></td>
+                                <td class="p-4 font-semibold">Shrugs<p class="font-normal text-sm text-zinc-500">Traps</p></td>
                                 <td class="p-4">3 sets of 12-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="4"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Face Pulls<p class="font-normal text-sm text-zinc-500">Excellent for rear delts and shoulder health.</p></td>
+                                <td class="p-4 font-semibold">Face Pulls<p class="font-normal text-sm text-zinc-500">Rear Deltoids, Upper Back</p></td>
                                 <td class="p-4">3 sets of 15-20 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="5"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Dumbbell Bicep Curls<p class="font-normal text-sm text-zinc-500">Control the movement.</p></td>
+                                <td class="p-4 font-semibold">Dumbbell Bicep Curls<p class="font-normal text-sm text-zinc-500">Biceps</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="6"></td>
                             </tr>
                              <tr>
-                                <td class="p-4 font-semibold">Hammer Curls<p class="font-normal text-sm text-zinc-500">Targets brachialis for arm thickness.</p></td>
+                                <td class="p-4 font-semibold">Hammer Curls<p class="font-normal text-sm text-zinc-500">Biceps, Brachialis, Forearms</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="7"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Concentration Curls<p class="font-normal text-sm text-zinc-500">Isolate the bicep.</p></td>
+                                <td class="p-4 font-semibold">Concentration Curls<p class="font-normal text-sm text-zinc-500">Biceps</p></td>
                                 <td class="p-4">3 sets of 12-15 reps</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="8"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Wrist Curls / Reverse Curls<p class="font-normal text-sm text-zinc-500">For forearm hypertrophy.</p></td>
+                                <td class="p-4 font-semibold">Wrist Curls / Reverse Curls<p class="font-normal text-sm text-zinc-500">Forearms</p></td>
                                 <td class="p-4">2-3 sets of 15-20 reps</td>
                                 <td class="p-4">30-45s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="9"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Kegel + Bird-Dog Superset<p class="font-normal text-sm text-zinc-500">Focus on core and pelvic stability.</p></td>
+                                <td class="p-4 font-semibold">Kegel + Bird-Dog Superset<p class="font-normal text-sm text-zinc-500">Pelvic Floor, Core</p></td>
                                 <td class="p-4">3 sets (10-15 Kegels + 10-12 Bird-Dogs/side)</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="10"></td>
@@ -430,7 +430,7 @@ const workoutData = {
                     <table class="w-full text-left">
                         <thead>
                             <tr>
-                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4 rounded-l-lg">Exercises (Full Body, Core)</th>
                                 <th class="p-4">Sets & Reps</th>
                                 <th class="p-4">Rest</th>
                                 <th class="p-4 rounded-r-lg">Complete</th>
@@ -438,31 +438,31 @@ const workoutData = {
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="p-4 font-semibold">Goblet Squat<p class="font-normal text-sm text-zinc-500">Deep range of motion, core engaged.</p></td>
+                                <td class="p-4 font-semibold">Goblet Squat<p class="font-normal text-sm text-zinc-500">Quads, Glutes, Core</p></td>
                                 <td class="p-4">3 sets of 10-15 reps</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="0"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Single-Arm Dumbbell Row<p class="font-normal text-sm text-zinc-500">Pull with back muscles.</p></td>
+                                <td class="p-4 font-semibold">Single-Arm Dumbbell Row<p class="font-normal text-sm text-zinc-500">Back (Lats), Biceps</p></td>
                                 <td class="p-4">3 sets of 8-12 reps/arm</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="1"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Push-ups<p class="font-normal text-sm text-zinc-500">Elevated or weighted for difficulty.</p></td>
+                                <td class="p-4 font-semibold">Push-ups<p class="font-normal text-sm text-zinc-500">Chest, Shoulders, Triceps, Core</p></td>
                                 <td class="p-4">3 sets to failure</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="2"></td>
                             </tr>
                             <tr>
-                                <td class="p-4 font-semibold">Farmer's Walk<p class="font-normal text-sm text-zinc-500">Builds grip strength and core stability.</p></td>
+                                <td class="p-4 font-semibold">Farmer's Walk<p class="font-normal text-sm text-zinc-500">Forearms, Traps, Core</p></td>
                                 <td class="p-4">3 rounds of 30-60s</td>
                                 <td class="p-4">60-90s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="3"></td>
                             </tr>
                              <tr>
-                                <td class="p-4 font-semibold">Cable Wood Chops<p class="font-normal text-sm text-zinc-500">Controlled rotation through the core.</p></td>
+                                <td class="p-4 font-semibold">Cable Wood Chops<p class="font-normal text-sm text-zinc-500">Obliques, Core</p></td>
                                 <td class="p-4">3 sets of 10-12/side</td>
                                 <td class="p-4">45-60s</td>
                                 <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="4"></td>
@@ -478,7 +478,7 @@ const workoutData = {
                         <table class="w-full text-left">
                             <thead>
                                 <tr>
-                                    <th class="p-4 rounded-l-lg">Exercise</th>
+                                    <th class="p-4 rounded-l-lg">Exercises (Pelvic Floor, Core, Glutes)</th>
                                     <th class="p-4">Sets & Reps</th>
                                     <th class="p-4">Rest</th>
                                     <th class="p-4 rounded-r-lg">Complete</th>
@@ -486,25 +486,25 @@ const workoutData = {
                             </thead>
                              <tbody>
                                 <tr>
-                                    <td class="p-4 font-semibold">Kegels (Slow + Fast)<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor muscles.</p></td>
+                                    <td class="p-4 font-semibold">Kegels (Slow + Fast)<p class="font-normal text-sm text-zinc-500">Pelvic Floor Muscles</p></td>
                                     <td class="p-4">3 sets of 10-15</td>
                                     <td class="p-4">30-45s</td>
                                     <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="5"></td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-semibold">Glute Bridge<p class="font-normal text-sm text-zinc-500">Lift hips, squeeze glutes and pelvic floor.</p></td>
+                                    <td class="p-4 font-semibold">Glute Bridge<p class="font-normal text-sm text-zinc-500">Glutes, Hamstrings, Pelvic Floor</p></td>
                                     <td class="p-4">3 sets of 12-15</td>
                                     <td class="p-4">45-60s</td>
                                     <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="6"></td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-semibold">Bird-Dog<p class="font-normal text-sm text-zinc-500">Extend opposite arm and leg, maintain core.</p></td>
+                                    <td class="p-4 font-semibold">Bird-Dog<p class="font-normal text-sm text-zinc-500">Core, Glutes, Shoulders</p></td>
                                     <td class="p-4">3 sets of 10-12/side</td>
                                     <td class="p-4">45-60s</td>
                                     <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="7"></td>
                                 </tr>
                                 <tr>
-                                    <td class="p-4 font-semibold">Superman<p class="font-normal text-sm text-zinc-500">Lift arms and legs simultaneously.</p></td>
+                                    <td class="p-4 font-semibold">Superman<p class="font-normal text-sm text-zinc-500">Lower Back, Glutes, Hamstrings</p></td>
                                     <td class="p-4">3 sets of 10-15</td>
                                     <td class="p-4">45-60s</td>
                                     <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="8"></td>
@@ -544,7 +544,7 @@ const workoutData = {
     },
     day7: {
         title: "Day 7: Rest",
-        emoji: "�",
+        emoji: "🧘",
         content: `
             <div class="bg-white p-6 rounded-xl shadow-md text-center">
                 <h3 class="text-3xl font-bold mb-4 text-zinc-800">Active Recovery & Rest</h3>
@@ -712,4 +712,3 @@ document.addEventListener('DOMContentLoaded', () => {
 
 </body>
 </html>
-�
