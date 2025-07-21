@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultimate 6-Day Workout Split</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Warm Neutrals with Cyan Accents -->
+    <!-- Application Structure Plan: A tabbed dashboard interface. The 'Overview' tab shows general guidelines and a visual summary of the week (Chart.js doughnut chart). Subsequent tabs for each day (1-7) display the specific workout or recovery plan. This structure was chosen to provide quick, non-linear access to daily routines, making it highly usable for someone following the plan, and to break down a large amount of information into digestible, interactive chunks, which is superior to a long, static document. Checkbox functionality is added for each exercise to allow users to track completion, enhancing interactivity and usability for beginners. -->
+    <!-- Visualization & Content Choices: Report Info -> Weekly Split. Goal -> Inform/Compare. Viz -> Chart.js Doughnut Chart. Interaction -> None (static visual). Justification -> Provides a quick, at-a-glance understanding of the plan's balance (4 gym, 2 cardio, 1 rest). Library -> Chart.js. Report Info -> Daily Workouts. Goal -> Organize. Viz -> Styled HTML tables with checkboxes. Interaction -> Tab navigation to select day, checkbox to mark completion. Justification -> Tables offer the clearest way to present structured exercise data (sets, reps, rest). Checkboxes provide direct interaction for tracking progress. CONFIRMATION: NO SVG/Mermaid used. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8F7F4;
+            color: #3f3f46;
+        }
+        .tab-btn {
+            transition: all 0.3s ease;
+        }
+        .tab-btn.active {
+            background-color: #0891b2;
+            color: #ffffff;
+            font-weight: 600;
+        }
+        .tab-btn:not(.active):hover {
+            background-color: #f1f5f9;
+        }
+        .content-panel {
+            display: none;
+        }
+        .content-panel.active {
+            display: block;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 320px;
+            height: 320px;
+            margin: auto;
+        }
+        @media (max-width: 640px) {
+            .chart-container {
+                max-width: 280px;
+                height: 280px;
+            }
+        }
+        .table-cell-icon {
+            width: 1.25rem;
+            height: 1.25rem;
+            margin-right: 0.5rem;
+            flex-shrink: 0;
+        }
+        thead {
+            background-color: #f1f5f9;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        .completed-exercise {
+            text-decoration: line-through;
+            color: #9ca3af; /* Gray out completed exercises */
+        }
+        /* Styling for checkboxes */
+        .exercise-checkbox {
+            width: 24px; /* Increased size */
+            height: 24px; /* Increased size */
+            margin: 0 auto; /* Center horizontally */
+            display: block; /* Ensure margin auto works */
+        }
+        /* Center content of the 'Complete' column cells */
+        td:last-child {
+            text-align: center;
+        }
+    </style>
+</head>
+<body class="antialiased">
+
+    <div class="container mx-auto p-4 sm:p-6 lg:p-8 max-w-7xl">
+        <header class="text-center mb-8">
+            <h1 class="text-4xl md:text-5xl font-bold text-zinc-800">Ultimate 6-Day Workout Plan</h1>
+            <p class="mt-2 text-lg text-zinc-600">Your interactive guide to optimizing health and performance.</p>
+        </header>
+
+        <nav id="tab-navigation" class="flex flex-wrap justify-center gap-2 mb-8">
+        </nav>
+
+        <main id="main-content">
+        </main>
+    </div>
+
+<script>
+const workoutData = {
+    overview: {
+        title: "Overview",
+        emoji: "📖",
+        content: `
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <div>
+                    <h3 class="text-2xl font-bold mb-4 text-zinc-800">Weekly Split</h3>
+                    <p class="mb-6 text-zinc-600">This plan is designed for balanced development, dedicating specific days to different fitness modalities. The goal is to build a complete athlete: strong, enduring, and healthy. Click on any day's tab to view your full routine.</p>
+                    <ul class="space-y-3">
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">🏋️</span><div><strong class="text-zinc-700">Day 1:</strong> Upper Body Push</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">🦵</span><div><strong class="text-zinc-700">Day 2:</strong> Lower Body & Core</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">🏃‍♂️</span><div><strong class="text-zinc-700">Day 3:</strong> Cardiovascular Fitness</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">💪</span><div><strong class="text-zinc-700">Day 4:</strong> Upper Body Pull & Back</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">❤️</span><div><strong class="text-zinc-700">Day 5:</strong> Full Body & Sexual Health Focus</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">🏃‍♀️</span><div><strong class="text-zinc-700">Day 6:</strong> Cardiovascular Fitness</div></li>
+                        <li class="flex items-center p-3 bg-white rounded-lg shadow-sm"><span class="text-xl mr-4">🧘</span><div><strong class="text-zinc-700">Day 7:</strong> Active Recovery / Rest</div></li>
+                    </ul>
+                </div>
+                <div class="p-4 bg-white rounded-xl shadow-md">
+                     <h3 class="text-2xl font-bold mb-4 text-center text-zinc-800">Training Focus Distribution</h3>
+                     <div class="chart-container">
+                        <canvas id="focusChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="mt-12 bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold mb-4 text-zinc-800">General Guidelines</h3>
+                <p class="mb-6 text-zinc-600">Success in this program depends on consistency and adherence to these core principles. Proper warm-ups prevent injury, while cool-downs aid recovery. Progressive overload is the key to continuous improvement.</p>
+                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-zinc-700">
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Warm-up:</strong> 5-10 min light cardio & dynamic stretches before each session.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Cool-down:</strong> 5-10 min static stretches after each session.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Progressive Overload:</strong> Gradually increase weight, reps, or sets.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Hydration:</strong> Drink plenty of water throughout the day.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Nutrition:</strong> Fuel with a balanced diet of protein, carbs, and fats.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Sleep:</strong> Aim for 7-9 hours for optimal recovery.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg col-span-1 md:col-span-2 lg:col-span-3"><strong>Form Over Weight:</strong> Always prioritize proper technique to prevent injuries and maximize muscle activation.</li>
+                </ul>
+            </div>
+             <div class="mt-12 bg-white p-6 rounded-xl shadow-md">
+                <h3 class="text-2xl font-bold mb-4 text-zinc-800">Important Notes on Sexual Health Exercises</h3>
+                <ul class="space-y-4 text-zinc-700">
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Consistency is Key:</strong> For Kegel exercises, consistency is more important than intensity. Perform them regularly for sustained benefits.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Mind-Muscle Connection:</strong> For all sexual health-focused exercises, really concentrate on engaging the pelvic floor and surrounding muscles. This enhances effectiveness.</li>
+                    <li class="p-4 bg-slate-50 rounded-lg"><strong>Holistic Approach:</strong> While these exercises are beneficial, remember that overall health (nutrition, stress management, sleep, and general fitness) significantly impacts sexual wellness. Consult a healthcare professional for any specific concerns regarding sexual health or ED.</li>
+                </ul>
+            </div>
+        `
+    },
+    day1: {
+        title: "Day 1: Push",
+        emoji: "🏋️",
+        content: `
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <p class="mb-6 text-zinc-600">Today's session focuses on upper body pushing movements to build raw strength and muscle mass in the chest, shoulders, and triceps, along with an initial focus on sexual health exercises.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4">Sets & Reps</th>
+                                <th class="p-4">Rest</th>
+                                <th class="p-4 rounded-r-lg">Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-4 font-semibold">Barbell Bench Press<p class="font-normal text-sm text-zinc-500">Focus on controlled movement.</p></td>
+                                <td class="p-4">3-4 sets of 6-8 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="0"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Incline Dumbbell Press<p class="font-normal text-sm text-zinc-500">Targets upper chest.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Standing Overhead Press<p class="font-normal text-sm text-zinc-500">Focus on core stability.</p></td>
+                                <td class="p-4">3 sets of 6-10 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Lateral Raises<p class="font-normal text-sm text-zinc-500">Mind-muscle connection for shoulder width.</p></td>
+                                <td class="p-4">3 sets of 12-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Triceps Dips<p class="font-normal text-sm text-zinc-500">Use parallel bars or a bench.</p></td>
+                                <td class="p-4">3 sets to failure</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Overhead Triceps Extension<p class="font-normal text-sm text-zinc-500">Use dumbbell or cable.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Close-Grip Bench Press<p class="font-normal text-sm text-zinc-500">Excellent for triceps development.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="6"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Kegel Exercises (slow + fast)<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor muscles.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">30-45s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day1" data-exercise-index="7"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `
+    },
+    day2: {
+        title: "Day 2: Lower",
+        emoji: "🦵",
+        content: `
+             <div class="bg-white p-6 rounded-xl shadow-md">
+                <p class="mb-6 text-zinc-600">This session is dedicated to building a powerful lower body and a strong, stable core, integrating exercises that support sexual health.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4">Sets & Reps</th>
+                                <th class="p-4">Rest</th>
+                                <th class="p-4 rounded-r-lg">Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-4 font-semibold">Barbell Back Squat<p class="font-normal text-sm text-zinc-500">Deep, controlled squats.</p></td>
+                                <td class="p-4">3-4 sets of 5-8 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="0"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Hip Thrusts<p class="font-normal text-sm text-zinc-500">Excellent for glute development.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Romanian Deadlift<p class="font-normal text-sm text-zinc-500">Focus on hamstring stretch.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Leg Press<p class="font-normal text-sm text-zinc-500">Vary foot placement.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Walking Lunges<p class="font-normal text-sm text-zinc-500">Hold dumbbells for added challenge.</p></td>
+                                <td class="p-4">3 sets of 10-12 reps/leg</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Calf Raises<p class="font-normal text-sm text-zinc-500">Standing or seated.</p></td>
+                                <td class="p-4">3 sets of 15-20 reps</td>
+                                <td class="p-4">30-45s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Glute-Ham Raise or Nordic Curl<p class="font-normal text-sm text-zinc-500">Advanced hamstring exercise.</p></td>
+                                <td class="p-4">3 sets of 8-10 reps</td>
+                                <td class="p-4">90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="6"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Plank<p class="font-normal text-sm text-zinc-500">Maintain a straight line from head to heels.</p></td>
+                                <td class="p-4">3 sets of 45-60s</td>
+                                <td class="p-4">30-45s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="7"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Side Plank<p class="font-normal text-sm text-zinc-500">Focus on oblique engagement.</p></td>
+                                <td class="p-4">3 sets of 30-45s/side</td>
+                                <td class="p-4">30-45s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="8"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Hanging Leg Raises<p class="font-normal text-sm text-zinc-500">Focus on lower abs.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="9"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Kegel + Glute Bridge Superset<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor and glute activation.</p></td>
+                                <td class="p-4">3 sets (10-15 reps each)</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day2" data-exercise-index="10"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `
+    },
+    day3: {
+        title: "Day 3: Cardio",
+        emoji: "🏃‍♂️",
+        content: `
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                 <p class="mb-6 text-zinc-600">Cardio days are crucial for heart health, stamina, and metabolic efficiency. Perform this workout outdoors. Choose one option based on your energy levels and goals for the day.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-cyan-700">Option 1: Steady-State Cardio</h4>
+                        <p class="text-zinc-600 mb-4">Focus on maintaining a consistent pace for an extended period to build endurance.</p>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li><strong>Brisk Walking/Jogging:</strong> 45-60 minutes at a moderate pace.</li>
+                            <li><strong>Light Running:</strong> 30-45 minutes at a comfortable, sustainable pace.</li>
+                        </ul>
+                    </div>
+                    <div class="bg-slate-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-cyan-700">Option 2: HIIT</h4>
+                         <p class="text-zinc-600 mb-4">High-Intensity Interval Training involves short bursts of maximum effort followed by rest periods.</p>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li><strong>Sprint Intervals:</strong> 8-12 rounds of 30s sprint, 60-90s walk/jog.</li>
+                            <li><strong>Fartlek Training:</strong> 30-40 minutes of varied-pace running.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    day4: {
+        title: "Day 4: Pull & Back",
+        emoji: "💪",
+        content: `
+             <div class="bg-white p-6 rounded-xl shadow-md">
+                <p class="mb-6 text-zinc-600">Today targets the upper body pulling muscles: back, biceps, rear deltoids, traps, and forearms. Focus on squeezing the muscles at the peak of each movement to build a strong, defined back.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4">Sets & Reps</th>
+                                <th class="p-4">Rest</th>
+                                <th class="p-4 rounded-r-lg">Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-4 font-semibold">Pull-ups / Lat Pulldowns<p class="font-normal text-sm text-zinc-500">Focus on squeezing your lats.</p></td>
+                                <td class="p-4">3-4 sets of 6-10 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="0"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Barbell Rows<p class="font-normal text-sm text-zinc-500">Maintain a flat back.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Reverse Grip Rows<p class="font-normal text-sm text-zinc-500">Targets lower lats and biceps.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps</td>
+                                <td class="p-4">90-120s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Seated Cable Rows<p class="font-normal text-sm text-zinc-500">Squeeze shoulder blades together.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="3"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Shrugs<p class="font-normal text-sm text-zinc-500">For trap development.</p></td>
+                                <td class="p-4">3 sets of 12-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="4"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Face Pulls<p class="font-normal text-sm text-zinc-500">Excellent for rear delts and shoulder health.</p></td>
+                                <td class="p-4">3 sets of 15-20 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="5"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Dumbbell Bicep Curls<p class="font-normal text-sm text-zinc-500">Control the movement.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="6"></td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-semibold">Hammer Curls<p class="font-normal text-sm text-zinc-500">Targets brachialis for arm thickness.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="7"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Concentration Curls<p class="font-normal text-sm text-zinc-500">Isolate the bicep.</p></td>
+                                <td class="p-4">3 sets of 12-15 reps</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="8"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Wrist Curls / Reverse Curls<p class="font-normal text-sm text-zinc-500">For forearm hypertrophy.</p></td>
+                                <td class="p-4">2-3 sets of 15-20 reps</td>
+                                <td class="p-4">30-45s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="9"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Kegel + Bird-Dog Superset<p class="font-normal text-sm text-zinc-500">Focus on core and pelvic stability.</p></td>
+                                <td class="p-4">3 sets (10-15 Kegels + 10-12 Bird-Dogs/side)</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day4" data-exercise-index="10"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        `
+    },
+    day5: {
+        title: "Day 5: Full Body & Health",
+        emoji: "❤️",
+        content: `
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                 <p class="mb-6 text-zinc-600">This session combines full-body functional movements with specific exercises to enhance sexual wellness. The goal is to build holistic strength, improve stability, and support hormonal and pelvic health.</p>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left">
+                        <thead>
+                            <tr>
+                                <th class="p-4 rounded-l-lg">Exercise</th>
+                                <th class="p-4">Sets & Reps</th>
+                                <th class="p-4">Rest</th>
+                                <th class="p-4 rounded-r-lg">Complete</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="p-4 font-semibold">Goblet Squat<p class="font-normal text-sm text-zinc-500">Deep range of motion, core engaged.</p></td>
+                                <td class="p-4">3 sets of 10-15 reps</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="0"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Single-Arm Dumbbell Row<p class="font-normal text-sm text-zinc-500">Pull with back muscles.</p></td>
+                                <td class="p-4">3 sets of 8-12 reps/arm</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="1"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Push-ups<p class="font-normal text-sm text-zinc-500">Elevated or weighted for difficulty.</p></td>
+                                <td class="p-4">3 sets to failure</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="2"></td>
+                            </tr>
+                            <tr>
+                                <td class="p-4 font-semibold">Farmer's Walk<p class="font-normal text-sm text-zinc-500">Builds grip strength and core stability.</p></td>
+                                <td class="p-4">3 rounds of 30-60s</td>
+                                <td class="p-4">60-90s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="3"></td>
+                            </tr>
+                             <tr>
+                                <td class="p-4 font-semibold">Cable Wood Chops<p class="font-normal text-sm text-zinc-500">Controlled rotation through the core.</p></td>
+                                <td class="p-4">3 sets of 10-12/side</td>
+                                <td class="p-4">45-60s</td>
+                                <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="4"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="mt-8 bg-cyan-50/50 p-6 rounded-lg border border-cyan-200">
+                    <h4 class="text-xl font-bold mb-3 text-cyan-800">Sexual Health Exercises</h4>
+                    <p class="text-zinc-600 mb-4">These exercises focus on pelvic floor strength, core stability, and posterior chain activation, which are linked to improved sexual function and wellness.</p>
+                     <div class="overflow-x-auto">
+                        <table class="w-full text-left">
+                            <thead>
+                                <tr>
+                                    <th class="p-4 rounded-l-lg">Exercise</th>
+                                    <th class="p-4">Sets & Reps</th>
+                                    <th class="p-4">Rest</th>
+                                    <th class="p-4 rounded-r-lg">Complete</th>
+                                </tr>
+                            </thead>
+                             <tbody>
+                                <tr>
+                                    <td class="p-4 font-semibold">Kegels (Slow + Fast)<p class="font-normal text-sm text-zinc-500">Focus on pelvic floor muscles.</p></td>
+                                    <td class="p-4">3 sets of 10-15</td>
+                                    <td class="p-4">30-45s</td>
+                                    <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="5"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">Glute Bridge<p class="font-normal text-sm text-zinc-500">Lift hips, squeeze glutes and pelvic floor.</p></td>
+                                    <td class="p-4">3 sets of 12-15</td>
+                                    <td class="p-4">45-60s</td>
+                                    <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="6"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">Bird-Dog<p class="font-normal text-sm text-zinc-500">Extend opposite arm and leg, maintain core.</p></td>
+                                    <td class="p-4">3 sets of 10-12/side</td>
+                                    <td class="p-4">45-60s</td>
+                                    <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="7"></td>
+                                </tr>
+                                <tr>
+                                    <td class="p-4 font-semibold">Superman<p class="font-normal text-sm text-zinc-500">Lift arms and legs simultaneously.</p></td>
+                                    <td class="p-4">3 sets of 10-15</td>
+                                    <td class="p-4">45-60s</td>
+                                    <td class="p-4"><input type="checkbox" class="exercise-checkbox" data-day="day5" data-exercise-index="8"></td>
+                                </tr>
+                             </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    day6: {
+        title: "Day 6: Cardio",
+        emoji: "🏃‍♀️",
+        content: `
+            <div class="bg-white p-6 rounded-xl shadow-md">
+                <p class="mb-6 text-zinc-600">This is your second cardio session of the week, designed to further improve aerobic capacity and endurance. Try a different option than Day 3, or choose the one you prefer.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-cyan-700">Option 1: Longer Steady-State</h4>
+                         <p class="text-zinc-600 mb-4">Push your endurance with a longer session at a consistent pace.</p>
+                        <ul class="space-y-2 list-disc list-inside">
+                             <li><strong>Brisk Walking/Jogging:</strong> 60-75 minutes.</li>
+                        </ul>
+                    </div>
+                     <div class="bg-slate-50 p-6 rounded-lg">
+                        <h4 class="text-xl font-bold mb-3 text-cyan-700">Option 2: Mixed Pace / Hills</h4>
+                         <p class="text-zinc-600 mb-4">Challenge your cardiovascular system with variations in intensity.</p>
+                        <ul class="space-y-2 list-disc list-inside">
+                            <li><strong>Mixed Pace Run:</strong> 40-50 minutes, varying pace every 5-10 min.</li>
+                            <li><strong>Hill Sprints (if available):</strong> 6-10 rounds of sprinting up a hill.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        `
+    },
+    day7: {
+        title: "Day 7: Rest",
+        emoji: "�",
+        content: `
+            <div class="bg-white p-6 rounded-xl shadow-md text-center">
+                <h3 class="text-3xl font-bold mb-4 text-zinc-800">Active Recovery & Rest</h3>
+                <p class="max-w-3xl mx-auto mb-6 text-zinc-600">Recovery is as important as training. This day is for muscle repair, energy replenishment, and mental rejuvenation. Listening to your body is key. This allows you to come back stronger for the next week.</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-8">
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <span class="text-4xl">🛌</span>
+                        <p class="mt-2 font-semibold">Complete Rest</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <span class="text-4xl">🧘‍♀️</span>
+                        <p class="mt-2 font-semibold">Stretching</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <span class="text-4xl">🚶‍♂️</span>
+                        <p class="mt-2 font-semibold">Gentle Walk</p>
+                    </div>
+                    <div class="p-4 bg-slate-50 rounded-lg">
+                        <span class="text-4xl">🤸</span>
+                        <p class="mt-2 font-semibold">Mobility Work</p>
+                    </div>
+                </div>
+            </div>
+        `
+    }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+    const tabNavigation = document.getElementById('tab-navigation');
+    const mainContent = document.getElementById('main-content');
+    const tabKeys = Object.keys(workoutData);
+
+    tabKeys.forEach((key, index) => {
+        const data = workoutData[key];
+        
+        const button = document.createElement('button');
+        button.className = 'tab-btn px-4 py-2 text-sm sm:text-base rounded-md font-medium text-zinc-700 bg-white shadow-sm';
+        button.textContent = `${data.emoji} ${data.title}`;
+        button.dataset.tab = key;
+        if(index === 0) button.classList.add('active');
+        tabNavigation.appendChild(button);
+
+        const panel = document.createElement('div');
+        panel.id = key;
+        panel.className = 'content-panel';
+        if(index === 0) panel.classList.add('active');
+        panel.innerHTML = data.content;
+        mainContent.appendChild(panel);
+    });
+    
+    const tabs = document.querySelectorAll('.tab-btn');
+    const panels = document.querySelectorAll('.content-panel');
+
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            tabs.forEach(t => t.classList.remove('active'));
+            panels.forEach(p => p.classList.remove('active'));
+
+            tab.classList.add('active');
+            const activePanel = document.getElementById(tab.dataset.tab);
+            activePanel.classList.add('active');
+            loadCheckboxesState(tab.dataset.tab); // Load state when tab is clicked
+        });
+    });
+    
+    const ctx = document.getElementById('focusChart');
+    if (ctx) {
+        new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: ['Strength Training', 'Cardio', 'Recovery'],
+                datasets: [{
+                    label: 'Weekly Focus',
+                    data: [4, 2, 1],
+                    backgroundColor: [
+                        '#0e7490',
+                        '#0891b2',
+                        '#67e8f9'   
+                    ],
+                    borderColor: '#F8F7F4',
+                    borderWidth: 4,
+                    hoverOffset: 8
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                cutout: '60%',
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            font: {
+                                size: 14,
+                                family: 'Inter'
+                            },
+                            color: '#3f3f46',
+                            padding: 20
+                        }
+                    },
+                    tooltip: {
+                         callbacks: {
+                            label: function(context) {
+                                let label = context.label || '';
+                                if (label) {
+                                    label += ': ';
+                                }
+                                if (context.parsed !== null) {
+                                    label += `${context.parsed} days`;
+                                }
+                                return label;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+
+    // Checkbox functionality
+    function saveCheckboxState(day, index, isChecked) {
+        let states = JSON.parse(localStorage.getItem('workoutStates')) || {};
+        if (!states[day]) {
+            states[day] = [];
+        }
+        states[day][index] = isChecked;
+        localStorage.setItem('workoutStates', JSON.stringify(states));
+    }
+
+    function loadCheckboxesState(day) {
+        const states = JSON.parse(localStorage.getItem('workoutStates')) || {};
+        const checkboxes = document.querySelectorAll(`#${day} .exercise-checkbox`);
+        checkboxes.forEach(checkbox => {
+            const index = parseInt(checkbox.dataset.exerciseIndex);
+            if (states[day] && states[day][index]) {
+                checkbox.checked = true;
+                checkbox.closest('tr').classList.add('completed-exercise');
+            } else {
+                checkbox.checked = false;
+                checkbox.closest('tr').classList.remove('completed-exercise');
+            }
+        });
+    }
+
+    // Attach event listeners to checkboxes after they are rendered
+    mainContent.addEventListener('change', (event) => {
+        if (event.target.classList.contains('exercise-checkbox')) {
+            const checkbox = event.target;
+            const day = checkbox.dataset.day;
+            const index = parseInt(checkbox.dataset.exerciseIndex);
+            const isChecked = checkbox.checked;
+            saveCheckboxState(day, index, isChecked);
+            if (isChecked) {
+                checkbox.closest('tr').classList.add('completed-exercise');
+            } else {
+                checkbox.closest('tr').classList.remove('completed-exercise');
+            }
+        }
+    });
+
+    // Load initial state for the default active tab (Overview is not a workout day, so load Day 1)
+    loadCheckboxesState('day1');
+});
+</script>
+
+</body>
+</html>
+�
