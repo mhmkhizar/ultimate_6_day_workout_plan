@@ -1,1 +1,1 @@
-# ultimate_6_day_workout_plan
+# weekly-wellness-plan
