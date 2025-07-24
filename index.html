@@ -122,7 +122,7 @@
           >
             <button
               data-day="1"
-              class="nav-btn flex-grow sm:flex-grow-0 px-5 py-3 text-sm sm:text-base font-medium text-[#c0c0c0] rounded-xl hover:bg-[#10b981] hover:text-white transition-colors duration-200 active"
+              class="nav-btn flex-grow sm:flex-grow-0 px-5 py-3 text-sm sm:text-base font-medium text-[#c0c0c0] rounded-xl hover:bg-[#10b981] hover:text-white transition-colors duration-200"
             >
               Monday
             </button>
@@ -873,23 +873,29 @@
           });
         }
 
+        // Function to display the content for a specific day
+        function showDayContent(dayNumber) {
+          dayContents.forEach((content) => {
+            if (content.id === `day-${dayNumber}`) {
+              content.classList.remove("hidden");
+            } else {
+              content.classList.add("hidden");
+            }
+          });
+
+          navButtons.forEach((btn) => {
+            btn.classList.remove("active");
+            if (parseInt(btn.getAttribute("data-day")) === dayNumber) {
+              btn.classList.add("active");
+            }
+          });
+        }
+
         // Add event listeners for navigation buttons
         navButtons.forEach((button) => {
           button.addEventListener("click", () => {
-            const targetDay = button.getAttribute("data-day");
-
-            dayContents.forEach((content) => {
-              if (content.id === `day-${targetDay}`) {
-                content.classList.remove("hidden");
-              } else {
-                content.classList.add("hidden");
-              }
-            });
-
-            navButtons.forEach((btn) => {
-              btn.classList.remove("active");
-            });
-            button.classList.add("active");
+            const targetDay = parseInt(button.getAttribute("data-day"));
+            showDayContent(targetDay);
           });
         });
 
@@ -902,6 +908,14 @@
 
         // Load checkbox states when the DOM is fully loaded
         loadCheckboxState();
+
+        // Set default tab to current day
+        const today = new Date();
+        const currentDay = today.getDay(); // Sunday is 0, Monday is 1, ..., Saturday is 6
+        // Adjust to make Monday 1, Tuesday 2, etc., and Sunday 7
+        const defaultDay = currentDay === 0 ? 7 : currentDay;
+        showDayContent(defaultDay);
+
 
         // Chart.js initialization
         const ctx = document
